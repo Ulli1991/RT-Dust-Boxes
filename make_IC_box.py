@@ -3,49 +3,52 @@ import h5py as h5py
 
 def makeIC_box(DIMS=3, N_1D=256, Ngrains_Ngas=1,
         fname='dustywind_3d_H1_N256.hdf5', Lbox=1., rho_desired=1., mode_dust='grid', mode_gas='grid'):
-
     # make a regular 1D grid for particle locations (with N_1D elements and unit
 #length)
-    x0=np.arange(-0.5,0.5,1./N_1D); x0+=0.5*(0.5-x0[-1]);
+    x0=np.arange(-0.5,0.5,1./N_1D)
+    x0+=0.5*(0.5-x0[-1])
+    # print(x0)
     N_1D_dust = np.round((1.*N_1D)*((1.*Ngrains_Ngas)**(1./(1.*DIMS)))).astype('int')
-    x0d=np.arange(-0.5,0.5,1./N_1D_dust); x0d+=0.5*(0.5-x0d[-1]);
-    x0d+=0.5/(1.*N_1D_dust)+0.5*(1./(1.*N_1D)-1./(1.*N_1D_dust)); x0d[x0d>0.5]-=1.
+    x0d=np.arange(-0.5,0.5,1./N_1D_dust); x0d+=0.5*(0.5-x0d[-1])
+    x0d+=0.5/(1.*N_1D_dust)+0.5*(1./(1.*N_1D)-1./(1.*N_1D_dust))
+    x0d[x0d>0.5]-=1.
+    # print(x0d)
     
     if DIMS == 3:
         if mode_gas == 'grid':
             xv_g, yv_g, zv_g = np.meshgrid(x0, x0, x0, sparse=False, indexing='xy')
         elif mode_gas == 'wn':
-            xv_g = np.random.random(N_1D**3)
-            yv_g = np.random.random(N_1D**3)
-            zv_g = np.random.random(N_1D**3)
+            xv_g = np.random.random(N_1D**3)-0.5
+            yv_g = np.random.random(N_1D**3)-0.5
+            zv_g = np.random.random(N_1D**3)-0.5
         else:
-            raise 'Undefined mode_gas'
+            raise ValueError('Undefined mode_gas')
 
         if mode_dust == 'grid':
             xv_d, yv_d, zv_d = np.meshgrid(x0d, x0d, x0d, sparse=False, indexing='xy')
         elif mode_dust == 'wn':
-            xv_d = np.random.random(N_1D_dust ** 3)
-            yv_d = np.random.random(N_1D_dust ** 3)
-            zv_d = np.random.random(N_1D_dust ** 3)
+            xv_d = np.random.random(N_1D_dust ** 3)-0.5
+            yv_d = np.random.random(N_1D_dust ** 3)-0.5
+            zv_d = np.random.random(N_1D_dust ** 3)-0.5
         else:
-            raise 'Undefined mode_dust'
+            raise ValueError('Undefined mode_dust')
     else:
         if mode_gas == 'grid':
             xv_g, yv_g = np.meshgrid(x0, x0, sparse=False, indexing='xy')
         elif mode_gas == 'wn':
-            xv_g = np.random.random(N_1D**3)
-            yv_g = np.random.random(N_1D**3)
+            xv_g = np.random.random(N_1D**3)-0.5
+            yv_g = np.random.random(N_1D**3)-0.5
         else:
-            raise 'Undefined mode_gas'
+            raise ValueError('Undefined mode_gas')
         zv_g = 0.0*xv_g
 
         if mode_dust == 'grid':
             xv_d, yv_d = np.meshgrid(x0d, x0d, sparse=False, indexing='xy')
         elif mode_dust == 'wn':
-            xv_d = np.random.random(N_1D_dust ** 3)
-            yv_d = np.random.random(N_1D_dust ** 3)
+            xv_d = np.random.random(N_1D_dust ** 3)-0.5
+            yv_d = np.random.random(N_1D_dust ** 3)-0.5
         else:
-            raise 'Undefined mode_dust'
+            raise ValueError('Undefined mode_dust')
         zv_d = 0.0*xv_d
 
     Ngas = xv_g.size
