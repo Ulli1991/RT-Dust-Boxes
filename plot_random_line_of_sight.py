@@ -5,7 +5,11 @@ import matplotlib.pyplot as plt
 import random
 
 #gas=gadget.readsnap('/panfs/ds08/hopkins/phopkins/data2/RDI_dust_spectrum/HR/c.k05N4.HR/output/', 0, 0)
+<<<<<<< Updated upstream
 dust = gadget.readsnap('/panfs/ds08/hopkins/phopkins/data2/RDI_dust_spectrum/HR/s.k05N4.HR/output/', 150, 3)
+=======
+dust=gadget.readsnap('/panfs/ds08/hopkins/phopkins/data2/RDI_dust_spectrum/HR/s.k05N4.HR/output/', 100, 3)
+>>>>>>> Stashed changes
 
 
 #print dust
@@ -45,7 +49,7 @@ print len(X)
 print len(res)
 print len(H)
 print ''
-x_centers = np.sqrt((X[1:]+X[:-1])/2.)
+x_centers = np.sqrt((X[1:]*X[:-1])/2.)
 print 'x_centers', x_centers
 mean_hist = res.mean(0)
 std_hist = res.std(0)
